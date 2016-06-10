@@ -3,10 +3,18 @@
 files=$( git ls-files --others --exclude-standard )
 
 for file in $files; do
-    read -p "Add $file [y,N,r]?"
+    read -p "Add $file [y,N,r,i,ii]?"
     if [[ $REPLY =~ ^[yY]$ ]]; then
         git add $file
     elif [[ $REPLY =~ ^[rR]$ ]]; then
         rm $file
+    elif [[ $REPLY =~ ^[iI] ]]; then
+        gitignore="$( git rev-parse --show-toplevel )/.gitignore"
+        echo "#Added by git-add-untracked-files" >> $gitignore
+        if [[ $REPLY =~ ^[iI]$ ]]; then
+            echo $file >> $gitignore
+        elif [[ $REPLY =~ ^[ii]{2}$ ]]; then
+            dirname $file >> $gitignore
+        fi
     fi
 done
