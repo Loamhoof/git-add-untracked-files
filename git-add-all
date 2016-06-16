@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-git auf
+git add-untracked-files
 git add -p
