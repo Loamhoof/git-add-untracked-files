@@ -3,9 +3,19 @@
 files=$( git ls-files --others --exclude-standard )
 
 for file in $files; do
-    read -p "Add $file [y,N,r,r#,i,i#,e,e#]?"
+    read -p "Add $file [y,N,a,a#,r,r#,i,i#,e,e#]?"
     if [[ $REPLY =~ ^[yY]$ ]]; then
         git add $file
+    elif [[ $REPLY =~ ^[aA] ]]; then
+        if [[ $REPLY =~ ^[aA]$ ]]; then
+            git add $file
+        elif [[ $REPLY =~ ^[aA]([0-9])$ ]]; then
+            ancestor=$file
+            for i in $(seq 1 ${BASH_REMATCH[1]}); do
+                ancestor=$(dirname $ancestor)
+            done
+            git add $ancestor
+        fi
     elif [[ $REPLY =~ ^[rR] ]]; then
         if [[ $REPLY =~ ^[rR]$ ]]; then
             rm $file
