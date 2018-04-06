@@ -15,7 +15,7 @@ while true; do
                     ancestor=$(dirname $ancestor)
                 done
                 git add $ancestor
-                break
+                continue 2
             fi
         elif [[ $REPLY =~ ^[rR] ]]; then
             if [[ $REPLY =~ ^[rR]$ ]]; then
@@ -26,7 +26,7 @@ while true; do
                     ancestor=$(dirname $ancestor)
                 done
                 rm -R $ancestor
-                break
+                continue 2
             fi
         elif [[ $REPLY =~ ^[iI] ]]; then
             gitignore="$( git rev-parse --show-toplevel )/.gitignore"
@@ -39,7 +39,7 @@ while true; do
                     ancestor=$(dirname $ancestor)
                 done
                 echo "/$ancestor" >> $gitignore
-                break
+                continue 2
             fi
         elif [[ $REPLY =~ ^[eE] ]]; then
             gitexclude="$( git rev-parse --show-toplevel )/.git/info/exclude"
@@ -51,7 +51,7 @@ while true; do
                     ancestor=$(dirname $ancestor)
                 done
                 echo "/$ancestor" >> $gitexclude
-                break
+                continue 2
             fi
         fi
     done
