@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+IFS=$'\n'
+
 while true; do
     files=$( git ls-files --others --exclude-standard )
     for file in $files; do
